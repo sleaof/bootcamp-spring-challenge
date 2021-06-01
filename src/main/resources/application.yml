@@ -1,0 +1,25 @@
+info:
+  app:
+    name: "challenge-spring-social-meli"
+    description: "O Mercado Livre continua a crescer e para o próximo ano pretende começar a implementar uma série de ferramentas que permitam a compradores e vendedores  uma experiência totalmente inovadora, onde o vínculo que os une é muito mais forte. A data de lançamento está próxima, por isso é necessário apresentar uma versão Beta do que será conhecido como SocialMeli, onde os compradores poderão acompanhar seus vendedores favoritos e saber todas as novidades que eles mesmos postam."
+    version: v0.0.1
+
+server:
+  port: 4200
+
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:socialmeli
+    username: SOCIALMELI
+    password: PASSW0RD
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    defer-datasource-initialization: true
+  database-platform: org.hibernate.dialect.H2Dialect
