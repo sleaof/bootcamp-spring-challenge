@@ -1,14 +1,12 @@
 package br.com.challengespring.socialmeli.challengespringsocialmeli.service;
 
 import br.com.challengespring.socialmeli.challengespringsocialmeli.entity.User;
-import br.com.challengespring.socialmeli.challengespringsocialmeli.entity.Vendor;
+import br.com.challengespring.socialmeli.challengespringsocialmeli.entity.Seller;
 import br.com.challengespring.socialmeli.challengespringsocialmeli.repository.UserRepository;
-import br.com.challengespring.socialmeli.challengespringsocialmeli.repository.VendorRepository;
+import br.com.challengespring.socialmeli.challengespringsocialmeli.repository.SellerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,7 +16,7 @@ public class UserService {
     UserRepository repository;
 
     @Autowired
-    VendorRepository vendorRepository;
+    SellerRepository vendorRepository;
 
     public User newUser(User user){
         repository.save(user);
@@ -32,15 +30,19 @@ public class UserService {
     //  Status Code 400 (Bad Request)
     public User follow(Long userId, Long userIdToFollow){
         Optional<User> user = repository.findById(userId);
-        Optional<Vendor> vendor = vendorRepository.findById(userIdToFollow);
-        validIds(user, vendor);
+        Optional<Seller> seller = vendorRepository.findById(userIdToFollow);
+        validIds(user, seller);
         return repository.save(user.get());
     }
 
-    private void validIds(Optional<User> user, Optional<Vendor> vendor) {
+    private void validIds(Optional<User> user, Optional<Seller> vendor) {
         if (user.isPresent() && vendor.isPresent()) {
             user.get().getFollowed().add(vendor.get());
         }
+    }
+
+    public Optional<User> getUser(Long user) {
+        return repository.findById(user);
     }
 
     // Get

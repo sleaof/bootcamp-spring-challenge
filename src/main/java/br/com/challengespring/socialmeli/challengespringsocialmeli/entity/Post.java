@@ -20,8 +20,8 @@ public class Post {
 
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idVendor", referencedColumnName = "idVendor")
-    private Vendor vendor;
+    @JoinColumn(name = "idUser", referencedColumnName = "idUser")
+    private User user;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

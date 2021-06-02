@@ -1,12 +1,10 @@
 package br.com.challengespring.socialmeli.challengespringsocialmeli.controller;
 
-import br.com.challengespring.socialmeli.challengespringsocialmeli.entity.Post;
 import br.com.challengespring.socialmeli.challengespringsocialmeli.entity.User;
 import br.com.challengespring.socialmeli.challengespringsocialmeli.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +16,14 @@ public class UserController {
     @Autowired
     UserService service;
 
+    // Post
+    // localhost:4200/users/{userId}/follow/{userIdToFollow}
+    //  US 0001: Ser capaz de realizar a ação de “Follow” (seguir) a um determinado vendedor
+    //  Status Code 200 (tudo OK)
+    //  Status Code 400 (Bad Request)
     @PostMapping("/users/newuser")
     public ResponseEntity<User> newUser(@RequestBody @Validated User user){
+        System.out.println(user);
         if(user != null) {
         return new ResponseEntity<User>(service.newUser(user), HttpStatus.CREATED);
         } else {
@@ -27,21 +31,15 @@ public class UserController {
         }
     }
 
-    @PutMapping("/users/{userId}/follow/{userIdToFollow}")
-    public ResponseEntity<User> atualizarLivePorId(@RequestHeader("userId") Long userId, @RequestHeader("userIdToFollow") Long userIdToFollow){
-        Optional<User> userIn = Optional.ofNullable(service.follow(userId, userIdToFollow));
-        if (!userIn.isPresent()){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<User>(service.follow(userId, userIdToFollow), HttpStatus.OK);
-        }
+    @GetMapping("/users/{idUser}")
+    public Optional<User> getUser(@RequestHeader @Validated Long idUser){
+        return service.getUser(idUser);
+//        if(idUser != null) {
+//            return new ResponseEntity<User>(service.getUser(idUser), HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+//        }
     }
-
-    // Post
-    // localhost:4200/users/{userId}/follow/{userIdToFollow}
-    //  US 0001: Ser capaz de realizar a ação de “Follow” (seguir) a um determinado vendedor
-    //  Status Code 200 (tudo OK)
-    //  Status Code 400 (Bad Request)
 
     // Get
     // localhost:4200/users/{userId}/followers/count/
@@ -49,11 +47,6 @@ public class UserController {
     //  Status Code 200 (tudo OK)
     //  Status Code 400 (Bad Request)
 
-    // Get
-    // localhost:4200/users/{UserID}/followers/list
-    //  US 0003: Obter uma lista de todos os usuários que seguem um determinado vendedor (quem me segue?)
-    //  Status Code 200 (tudo OK)
-    //  Status Code 400 (Bad Request)
 
     // Get
     // localhost:4200/users/{UserID}/followers/list

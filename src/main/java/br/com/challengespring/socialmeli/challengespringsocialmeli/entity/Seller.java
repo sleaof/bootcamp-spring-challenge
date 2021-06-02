@@ -13,23 +13,18 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Vendor {
+public class Seller extends User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idVendor;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long idSeller;
 
-    @NotNull
-    private String vendorName;
-
-    @JsonIgnore
     @OneToMany
     private List<User> followers;
 
     @NotNull
     private Long followersCount;
 
-    @JsonIgnore
     @OneToMany
     private List<Post> post;
 

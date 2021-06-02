@@ -1,19 +1,20 @@
 package br.com.challengespring.socialmeli.challengespringsocialmeli.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class User {
+@Inheritance(strategy = InheritanceType.JOINED)
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +23,9 @@ public class User {
     @NotNull
     private String userName;
 
+    @NotNull
+    private Boolean isSeller = false;
+
     @OneToMany
-    private List<Vendor> followed;
+    private List<Seller> followed;
 }
