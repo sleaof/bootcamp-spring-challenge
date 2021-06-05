@@ -1,9 +1,10 @@
 package com.digitalhouse.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -12,12 +13,14 @@ import java.util.Objects;
 public class Seller extends User{
 
 
-    @OneToMany
+    @ManyToMany(mappedBy = "followed")
     private List<User> followers = new ArrayList<>();
 
+    public Seller(){
+    }
 
-    public Seller(Long id, String name, boolean isSeller, List<Seller> followed, List<User> followers) {
-        super(id, name, isSeller, followed);
+    public Seller(Long id, String name, boolean seller, List<Seller> followed, List<User> followers) {
+        super(id, name, seller, followed);
         this.followers = followers;
     }
 

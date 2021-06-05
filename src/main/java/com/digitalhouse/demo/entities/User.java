@@ -1,5 +1,7 @@
 package com.digitalhouse.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 
 import javax.persistence.*;
@@ -9,25 +11,30 @@ import java.util.Objects;
 
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private boolean isSeller = false;
+    private boolean seller;
 
-    @OneToMany
+    @ManyToMany
+    @JoinTable(
+            name = "follows",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "seller_id")
+    )
     private List<Seller> followed = new ArrayList<>();
 
     public User(){
     }
 
-    public User(Long id, String name, boolean isSeller, List<Seller> followed) {
+    public User(Long id, String name, boolean seller, List<Seller> followed) {
         this.id = id;
         this.name = name;
-        this.isSeller = isSeller;
+        this.seller = seller;
         this.followed = followed;
     }
 
@@ -48,7 +55,11 @@ public class User {
     }
 
     public boolean isSeller() {
-        return isSeller;
+        return seller;
+    }
+
+    public void setSeller(boolean seller) {
+        this.seller = seller;
     }
 
     public List<Seller> getFollowed() {
@@ -57,28 +68,5 @@ public class User {
 
     public void setFollowed(List<Seller> followed) {
         this.followed = followed;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        User user = (User) o;
-        return isSeller == user.isSeller && id.equals(user.id) && name.equals(user.name) && followed.equals(user.followed);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, isSeller, followed);
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", seller=" + isSeller +
-                ", followed=" + followed +
-                '}';
     }
 }
