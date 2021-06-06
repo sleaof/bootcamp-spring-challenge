@@ -4,10 +4,9 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Entity
-public abstract class User {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
@@ -25,9 +24,15 @@ public abstract class User {
         this.seller = seller;
         followers = followers;
     }
+
     public User(){
 
     }
+
+
+    public User(Integer userId, String userName, Boolean seller) {
+    }
+
 
     public List<User> getFollowers() {
         return followers;

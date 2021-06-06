@@ -1,11 +1,19 @@
 package com.digitalhouse.demo.Model;
 
+import com.digitalhouse.demo.DTOs.UserDTO;
+
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 public class Seller extends User{
+    @Column
+    @OneToMany(cascade=CascadeType.ALL)
+    @ElementCollection(targetClass=User.class)
+    private List<User> followersTotal = new ArrayList<>();
 
 
     public Seller(Integer userId, String userName, Boolean seller, List<User> followers) {
@@ -13,6 +21,15 @@ public class Seller extends User{
     }
 
     public Seller() {
+    }
+
+
+    public List<User> getFollowersTotal() {
+        return followersTotal;
+    }
+
+    public void setFollowersTotal(List<User> followersTotal) {
+        this.followersTotal = followersTotal;
     }
 
     @Override

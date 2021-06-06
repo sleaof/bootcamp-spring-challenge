@@ -1,5 +1,6 @@
 package com.digitalhouse.demo.Controller;
 
+import com.digitalhouse.demo.DTOs.UserDTO;
 import com.digitalhouse.demo.Model.Buyer;
 import com.digitalhouse.demo.Model.Seller;
 import com.digitalhouse.demo.Model.User;
@@ -8,12 +9,8 @@ import com.digitalhouse.demo.Repository.SellerRepository;
 import com.digitalhouse.demo.Repository.UserRepository;
 import com.digitalhouse.demo.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,7 +53,12 @@ public class SpringChallengeController {
     }
 
     @PostMapping("/users/{userId}/follow/{userIdToFollow}")
-    public Optional<User> followTosellerById(@PathVariable Integer userId, @PathVariable int userIdToFollow){
+    public User followTosellerById(@PathVariable Integer userId, @PathVariable int userIdToFollow){
+
+        User userFollowed = userRepository.findById(userIdToFollow).get();
+        UserDTO user = new UserDTO(userFollowed);
+        userService.transformaUsuario(user);
+
         return userService.followed(userId,userIdToFollow);
 
     }

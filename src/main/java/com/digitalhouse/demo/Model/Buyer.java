@@ -1,13 +1,16 @@
 package com.digitalhouse.demo.Model;
 
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import java.util.List;
 @Entity
 public class Buyer extends User{
 
     public Buyer(Integer userId, String userName, Boolean seller, List<User> followers) {
         super(userId, userName, seller, followers);
+    }
+
+    public Buyer(Integer userId, String userName, Boolean seller) {
+        super(userId, userName, seller);
     }
 
     public Buyer() {
