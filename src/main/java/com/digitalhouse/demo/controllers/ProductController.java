@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -29,5 +30,17 @@ public class ProductController {
     public ResponseEntity<PostsBySellersDTO> listofPublicationsMadeBySalles(@PathVariable Integer userId) {
         Optional<User> user = userRepository.findById(userId);
         return new ResponseEntity<PostsBySellersDTO>(service.listPostsBySeller(user), HttpStatus.OK);
+    }
+
+    @GetMapping("/followed/{userId}/orderedList")
+    public PostsBySellersDTO sortFollowedByData(@PathVariable Integer userId, @RequestParam(value = "order") String order) {
+        PostsBySellersDTO postsBySellersDTO = service.listPostsBySeller(userRepository.findById(userId));
+        if(order.equalsIgnoreCase("date_asc")) {
+            postsBySellersDTO.setPosts(service.sortFollowedByDataAsc(postsBySellersDTO));
+            return postsBySellersDTO;
+        } else {
+            postsBySellersDTO.setPosts(service.sortFollowedByDataDesc(postsBySellersDTO));
+            return postsBySellersDTO;
+        }
     }
 }
