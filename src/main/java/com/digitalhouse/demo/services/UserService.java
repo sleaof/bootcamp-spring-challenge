@@ -1,23 +1,18 @@
 package com.digitalhouse.demo.services;
 
-import com.digitalhouse.demo.dtos.CountFollowersDTO;
-import com.digitalhouse.demo.dtos.WhoFollowsMeDTO;
-import com.digitalhouse.demo.dtos.WhoIsFollowingMeDTO;
-import com.digitalhouse.demo.entities.Seller;
-import com.digitalhouse.demo.entities.User;
-
-import java.util.List;
-import java.util.Optional;
+import com.digitalhouse.demo.dtos.numberOfUsersFollowASellerDTO;
+import com.digitalhouse.demo.dtos.listOfUsersFollowASellerDTO;
+import com.digitalhouse.demo.dtos.listOfSellersFollowAUserDTO;
+import com.digitalhouse.demo.dtos.SortByNameDTO;
 
 public interface UserService {
-    public Boolean validateById(Integer userId);
     public Boolean follow(Integer userId, Integer userIdToFollow);
-    public CountFollowersDTO countFollowers(Integer userId);
-    public WhoFollowsMeDTO listOfUsersFollowASeller(Optional<Seller> seller);
-    public WhoIsFollowingMeDTO listOfSellersFollowAUser(Optional<User> user);
+    public numberOfUsersFollowASellerDTO countFollowers(Integer userId);
+    public listOfUsersFollowASellerDTO listOfUsersFollowASeller(Integer userId);
+    public listOfSellersFollowAUserDTO listOfSellersFollowAUser(Integer userId);
     public Boolean unfollow(Integer userId, Integer userIdToUnfollow);
-    public List<User> sortFollowersByNameAsc(Integer userId);
-    public List<User> sortFollowersByNameDesc(Integer userId);
-    public List<User> sortFollowedByNameAsc(Integer userId);
-    public List<User> sortFollowedByNameDesc(Integer userId);
+    public SortByNameDTO sortFollowersByNameAsc(Integer userId);
+    public SortByNameDTO sortFollowersByNameDesc(Integer userId);
+    public SortByNameDTO sortFollowedByNameAsc(Integer userId);
+    public SortByNameDTO sortFollowedByNameDesc(Integer userId);
 }

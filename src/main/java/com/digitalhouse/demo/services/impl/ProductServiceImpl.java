@@ -1,4 +1,4 @@
-package com.digitalhouse.demo.services;
+package com.digitalhouse.demo.services.impl;
 
 import com.digitalhouse.demo.dtos.PostsBySellersDTO;
 import com.digitalhouse.demo.entities.Post;
@@ -7,6 +7,7 @@ import com.digitalhouse.demo.entities.User;
 import com.digitalhouse.demo.repositories.PostRepository;
 import com.digitalhouse.demo.repositories.ProductRepository;
 import com.digitalhouse.demo.repositories.UserRepository;
+import com.digitalhouse.demo.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +47,9 @@ public class ProductServiceImpl implements ProductService {
                             return mapId.stream()
                                     .anyMatch(i2 -> i2.equals(o1.getUser().getUserId()));
                         }).collect(Collectors.toList()));
+
+        //List<Post> aux = postsBySellersDTO.getPosts().stream()
+                //.filter(p -> p.getDate().min).collect(Collectors.toList());
 
         return postsBySellersDTO;
     }

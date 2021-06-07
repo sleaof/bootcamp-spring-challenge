@@ -1,19 +1,17 @@
 package com.digitalhouse.demo.dtos;
 
-import java.util.List;
-
-public class WhoFollowsMeDTO {
+public class numberOfUsersFollowASellerDTO {
     private Integer userId;
     private String userName;
-    private List<UserDTO> followers;
+    private Integer followers_count;
 
-    public WhoFollowsMeDTO() {
+    public numberOfUsersFollowASellerDTO() {
     }
 
-    public WhoFollowsMeDTO(Integer userId, String userName, List<UserDTO> followers) {
+    public numberOfUsersFollowASellerDTO(Integer userId, String userName, Integer followers_count) {
         this.userId = userId;
         this.userName = userName;
-        this.followers = followers;
+        this.followers_count = followers_count;
     }
 
     public Integer getUserId() {
@@ -32,11 +30,11 @@ public class WhoFollowsMeDTO {
         this.userName = userName;
     }
 
-    public List<UserDTO> getFollowers() {
-        return followers;
+    public Integer getFollowers_count() {
+        return followers_count;
     }
 
-    public void setFollowers(List<UserDTO> followers) {
-        this.followers = followers;
+    public void setFollowers_count(Integer followers_count) {
+        this.followers_count = followers_count;
     }
 }

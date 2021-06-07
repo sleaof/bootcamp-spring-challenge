@@ -3,7 +3,7 @@ package com.digitalhouse.demo.entities;
 import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 public class Post {
@@ -14,7 +14,7 @@ public class Post {
 
     @Column(nullable = false)
     @JsonFormat(pattern="dd-MM-yyyy")
-    private Date date;
+    private LocalDate date;
 
     @OneToOne
     @JoinColumn(name = "productId")
@@ -36,7 +36,7 @@ public class Post {
     public Post() {
     }
 
-    public Post(Integer postId, Date date, Product detail, Integer category, Double price, User user, Integer userId) {
+    public Post(Integer postId, LocalDate date, Product detail, Integer category, Double price, User user, Integer userId) {
         this.postId = postId;
         this.date = date;
         this.detail = detail;
@@ -54,11 +54,11 @@ public class Post {
         this.postId = postId;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
