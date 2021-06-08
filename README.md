@@ -3,7 +3,7 @@
 O Mercado Livre continua a crescer e para o próximo ano pretende começar a implementar uma série de ferramentas que permitam a compradores e vendedores  uma experiência totalmente inovadora, onde o vínculo que os une é muito mais forte. A data de lançamento está próxima, por isso é necessário apresentar uma versão Beta do que será conhecido como SocialMeli,
 onde os compradores poderão acompanhar seus vendedores favoritos e saber todas as novidades que eles mesmos postam.
 
-# Tecnologias
+# Tecnologias Utilizadas
 ## Back end
 
 - [Java](https://www.oracle.com/br/java/technologies/javase-jdk11-downloads.html) versão 11
@@ -24,6 +24,20 @@ Executando pela linha de comando na pasta da raiz do projeto, crie o jar do proj
 Para executar os testes unitários, use o comando:
 
 `./mvnw test`
+
+# Banco de Dados
+
+Acesso ao mock na pasta resources:
+
+`data.sql`
+
+Acesso as configurações da API na pasta resources:
+
+`application.yml`
+
+Com a aplicação sendo executada, acesse através da uri ao H2:
+
+`http://localhost:4200/h2`
 
 # Acesso as collections usando o Postman:
 
