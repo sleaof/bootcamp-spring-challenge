@@ -25,6 +25,8 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public PostDTO createANewPost(Post post) {
         post.setUser(userRepository.findById(post.getUserId()).get());
+        post.setHasPromo(false);
+        post.setDiscount(0.00);
         productRepository.save(post.getDetail());
         postRepository.save(post);
 
@@ -100,4 +102,27 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public PromoPostDTO createAPromoPost(Post post) {
+        post.setUser(userRepository.findById(post.getUserId()).get());
+        productRepository.save(post.getDetail());
+        postRepository.save(post);
+
+        return new PromoPostDTO(
+                post.getUser().getUserId(),
+                post.getPostId(),
+                post.getDate(),
+                new ProductDTO(post.getDetail().getProductId(),
+                        post.getDetail().getProductName(),
+                        post.getDetail().getType(),
+                        post.getDetail().getBrand(),
+                        post.getDetail().getColor(),
+                        post.getDetail().getNotes()
+                ),
+                post.getCategory(),
+                post.getPrice(),
+                post.getHasPromo(),
+                post.getDiscount()
+        );
+    }
 }

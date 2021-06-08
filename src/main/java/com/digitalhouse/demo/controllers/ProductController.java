@@ -58,4 +58,21 @@ public class ProductController {
             return new ResponseEntity(new BadRequestException("Your operation could not be completed. Check the information."), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PostMapping("/newpromopost")
+    public ResponseEntity createAPromoPost(@RequestBody Post post) {
+        if (validation.validatePostIsEmpty(post))
+            return new ResponseEntity(new NotFoundException("Post not found."), HttpStatus.NOT_FOUND);
+        return new ResponseEntity(service.createAPromoPost(post), HttpStatus.OK);
+    }
+    /*
+    @GetMapping("/followed/{userId}/list")
+    public ResponseEntity listofPublicationsMadeBySelles(@PathVariable Integer userId) {
+        return new ResponseEntity();
+    }
+
+    @GetMapping("/{userId}/list")
+    public ResponseEntity listofPublicationsMadeBySelles(@PathVariable Integer userId) {
+        return new ResponseEntity();
+    }*/
 }

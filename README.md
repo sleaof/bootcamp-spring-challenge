@@ -21,7 +21,7 @@ O objetivo deste desafio é aplicar os conteúdos dados até o momento durante o
   determinado vendedor; <br>
 ✅ <b>US 0008</b>: Ordem alfabética crescente e decrescente; <br>
 ✅ <b>US 0009</b>: Classificar por data crescente e decrescente; <br>
-☑️  <b>US 0010</b>: Realizar a publicação de um novo produto promocional; <br>
+✅ <b>US 0010</b>: Realizar a publicação de um novo produto promocional; <br>
 ☑️ <b>US 0011</b>: Obtenha o quantidade de produtos promocionais de um vendedor específico; <br>
 ☑️  <b>US 0012</b>: Obter uma lista de todos os produtos promocionais de um vendedor específico. <br>
 

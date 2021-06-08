@@ -1,55 +1,37 @@
-package com.digitalhouse.demo.entities;
+package com.digitalhouse.demo.dtos;
 
-import com.fasterxml.jackson.annotation.*;
-
-import javax.persistence.*;
 import java.time.LocalDate;
 
-@Entity
-public class Post {
+public class PromoPostDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer userId;
     private Integer postId;
-
-    @Column(nullable = false)
-    @JsonFormat(pattern="dd-MM-yyyy")
     private LocalDate date;
-
-    @OneToOne
-    @JoinColumn(name = "productId")
-    private Product detail;
-
-    @Column(nullable = false)
+    private ProductDTO detail;
     private Integer category;
-
-    @Column(nullable = false)
     private Double price;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "userId")
-    private User user;
-
-    @Column(columnDefinition = "boolean default false", nullable = false)
     private Boolean hasPromo;
-
     private Double discount;
 
-    @Transient
-    private Integer userId;
-
-    public Post() {
+    public PromoPostDTO() {
     }
 
-    public Post(Integer postId, LocalDate date, Product detail, Integer category, Double price, User user, Boolean hasPromo, Double discount, Integer userId) {
+    public PromoPostDTO(Integer userId, Integer postId, LocalDate date, ProductDTO detail, Integer category, Double price, Boolean hasPromo, Double discount) {
+        this.userId = userId;
         this.postId = postId;
         this.date = date;
         this.detail = detail;
         this.category = category;
         this.price = price;
-        this.user = user;
         this.hasPromo = hasPromo;
         this.discount = discount;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -69,11 +51,11 @@ public class Post {
         this.date = date;
     }
 
-    public Product getDetail() {
+    public ProductDTO getDetail() {
         return detail;
     }
 
-    public void setDetail(Product detail) {
+    public void setDetail(ProductDTO detail) {
         this.detail = detail;
     }
 
@@ -93,14 +75,6 @@ public class Post {
         this.price = price;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public Boolean getHasPromo() {
         return hasPromo;
     }
@@ -115,13 +89,5 @@ public class Post {
 
     public void setDiscount(Double discount) {
         this.discount = discount;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 }

@@ -11,4 +11,5 @@ public interface ProductService {
     public PostResponseDTO listPostsBySeller(Integer userId);
     public List<PostDTO> sortFollowedByDataAsc(Integer userId);
     public List<PostDTO> sortFollowedByDataDesc(Integer userId);
+    public PromoPostDTO createAPromoPost(Post post);
 }
