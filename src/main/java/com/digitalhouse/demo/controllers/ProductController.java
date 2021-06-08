@@ -1,6 +1,6 @@
 package com.digitalhouse.demo.controllers;
 
-import com.digitalhouse.demo.dtos.PostsBySellersDTO;
+import com.digitalhouse.demo.dtos.*;
 import com.digitalhouse.demo.entities.*;
 import com.digitalhouse.demo.exceptions.*;
 import com.digitalhouse.demo.services.ProductService;
@@ -28,25 +28,26 @@ public class ProductController {
     }
 
     @GetMapping("/followed/{userId}/list")
-    public ResponseEntity<PostsBySellersDTO> listofPublicationsMadeBySelles(@PathVariable Integer userId) {
+    public ResponseEntity<PostResponseDTO> listofPublicationsMadeBySelles(@PathVariable Integer userId) {
         if (!validation.validateById(userId) || validation.validateIsEmpty(userId) )
             return new ResponseEntity(new NotFoundException("User not found."), HttpStatus.NOT_FOUND);
 
         if (validation.validateIfIsASeller(userId))
             return new ResponseEntity(new BadRequestException("Invalid operation. Only users can follow sellers."), HttpStatus.BAD_REQUEST);
 
-        return new ResponseEntity<PostsBySellersDTO>(service.listPostsBySeller(userId), HttpStatus.OK);
+        return new ResponseEntity<PostResponseDTO>(service.listPostsBySeller(userId), HttpStatus.OK);
     }
 
     @GetMapping("/followed/{userId}/orderedList")
-    public ResponseEntity<PostsBySellersDTO> sortFollowedByData(@PathVariable Integer userId, @RequestParam(value = "order") String order) {
+    public ResponseEntity<PostResponseDTO> sortFollowedByData(@PathVariable Integer userId, @RequestParam(value = "order") String order) {
         if (validation.validateIsEmpty(userId) || !validation.validateById(userId))
             return new ResponseEntity(new NotFoundException("User not found."), HttpStatus.NOT_FOUND);
 
         if (validation.validateIfIsASeller(userId))
             return new ResponseEntity(new BadRequestException("Invalid operation. If you're a seller, you don't have followed."), HttpStatus.BAD_REQUEST);
 
-        PostsBySellersDTO postsBySellersDTO = new PostsBySellersDTO();
+        PostResponseDTO postsBySellersDTO = new PostResponseDTO();
+        postsBySellersDTO.setUserId(userId);
         if (order.equalsIgnoreCase("date_asc")) {
             postsBySellersDTO.setPosts(service.sortFollowedByDataAsc(userId));
             return new ResponseEntity(postsBySellersDTO, HttpStatus.OK);

@@ -45,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public PostsBySellersDTO listPostsBySeller(Integer userId) {
+    public PostResponseDTO listPostsBySeller(Integer userId) {
         Optional<User> user = userRepository.findById(userId);
         PostsBySellersDTO postsBySellersDTO = new PostsBySellersDTO();
         postsBySellersDTO.setUserId(user.get().getUserId());
@@ -63,22 +63,40 @@ public class ProductServiceImpl implements ProductService {
                 .filter(p -> p.getDate().isAfter(LocalDate.now().minusDays(15)))
                 .collect(Collectors.toList()));
 
-        return postsBySellersDTO;
+        return generatePostReponseDTO(postsBySellersDTO);
+    }
+
+    public PostResponseDTO generatePostReponseDTO(PostsBySellersDTO postsBySellersDTO) {
+        PostResponseDTO postResponseDTO = new PostResponseDTO();
+        List<Post> posts = postsBySellersDTO.getPosts();
+        List<PostDTO> postsDTO = new ArrayList<>();
+
+        for(Post p : posts) {
+            postsDTO.add(new PostDTO(p.getUser().getUserId(),
+                    p.getPostId(),
+                    p.getDate(),
+                    new ProductDTO(p.getDetail().getProductId(), p.getDetail().getProductName(), p.getDetail().getType(), p.getDetail().getBrand(), p.getDetail().getColor(), p.getDetail().getNotes()),
+                    p.getCategory(),
+                    p.getPrice()));
+        }
+        postResponseDTO.setUserId(postsBySellersDTO.getUserId());
+        postResponseDTO.setPosts(postsDTO);
+        return postResponseDTO;
     }
 
     @Override
-    public List<Post> sortFollowedByDataAsc(Integer userId) {
-        PostsBySellersDTO postsBySellersDTO = listPostsBySeller(userId);
+    public List<PostDTO> sortFollowedByDataAsc(Integer userId) {
+        PostResponseDTO postsBySellersDTO = listPostsBySeller(userId);
         return postsBySellersDTO.getPosts().stream()
-                .sorted(Comparator.comparing(Post::getDate))
+                .sorted(Comparator.comparing(PostDTO::getDate))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Post> sortFollowedByDataDesc(Integer userId) {
-        PostsBySellersDTO postsBySellersDTO = listPostsBySeller(userId);
+    public List<PostDTO> sortFollowedByDataDesc(Integer userId) {
+        PostResponseDTO postsBySellersDTO = listPostsBySeller(userId);
         return postsBySellersDTO.getPosts().stream()
-                .sorted(Comparator.comparing(Post::getDate).reversed())
+                .sorted(Comparator.comparing(PostDTO::getDate).reversed())
                 .collect(Collectors.toList());
     }
 
