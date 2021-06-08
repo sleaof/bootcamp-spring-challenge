@@ -22,7 +22,7 @@ public class Detail {
     @OneToOne
     @PrimaryKeyJoinColumn
     @JsonIgnoreProperties("detail")
-    private Post post;
+    private Post idPost;
 
     @NotNull
     private String productName;
