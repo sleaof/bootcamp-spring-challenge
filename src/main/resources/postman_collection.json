@@ -1,0 +1,459 @@
+{
+	"info": {
+		"_postman_id": "f76d3bcc-fb3e-462d-ae69-0833c8f7ca03",
+		"name": "Social Meli - Challenge Spring",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "New User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userName\": \"Raimunda\"\n}"
+						},
+						"url": {
+							"raw": "localhost:4200/users/newuser",
+							"host": [
+								"localhost"
+							],
+							"port": "4200",
+							"path": [
+								"users",
+								"newuser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "idUser",
+								"value": "2",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:4200/users/{idUser}",
+							"host": [
+								"localhost"
+							],
+							"port": "4200",
+							"path": [
+								"users",
+								"{idUser}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Seller",
+			"item": [
+				{
+					"name": "New Seller",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userName\": \"Petz\",\n    \"isSeller\": true\n}"
+						},
+						"url": {
+							"raw": "localhost:4200/sellers/newseller",
+							"host": [
+								"localhost"
+							],
+							"port": "4200",
+							"path": [
+								"sellers",
+								"newseller"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Seller",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "idSeller",
+								"value": "1",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:4200/sellers/{idSeller}",
+							"host": [
+								"localhost"
+							],
+							"port": "4200",
+							"path": [
+								"sellers",
+								"{idSeller}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Post",
+			"item": [
+				{
+					"name": "Get Post",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "idPost",
+								"value": "1",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:4200/products/{idPost}",
+							"host": [
+								"localhost"
+							],
+							"port": "4200",
+							"path": [
+								"products",
+								"{idPost}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "US 0005 - Cadastrar uma nova publicação",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"seller\": 1,\n    \"date\": \"02.06.2021\",\n    \"detail\": {\n        \"productName\": \"Camiseta NBA Pocket Logo Chicago Bulls\",\n        \"type\": \"manga 3/4\",\n        \"brand\": \"Chicago Bulls\",\n        \"color\": \"Black\",\n        \"notes\": \"female\"\n    },\n    \"category\": 1,\n    \"price\": 69.99,\n    \"hasPromo\": false,\n    \"discount\": 0\n}"
+						},
+						"url": {
+							"raw": "localhost:4200/products/newpost",
+							"host": [
+								"localhost"
+							],
+							"port": "4200",
+							"path": [
+								"products",
+								"newpost"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "US 0010 - Realizar a publicação de um novo produto promocional",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"seller\": 1,\n    \"date\": \"02.06.2021\",\n    \"detail\": {\n        \"productName\": \"Camiseta Infantil NBA Chicago Bulls\",\n        \"type\": \"manga 3/4\",\n        \"brand\": \"Chicago Bulls\",\n        \"color\": \"Black\",\n        \"notes\": \"male\"\n    },\n    \"category\": 1,\n    \"price\": 39.99,\n    \"hasPromo\": true,\n    \"discount\": 50.0\n}"
+						},
+						"url": {
+							"raw": "localhost:4200/products/newpromopost",
+							"host": [
+								"localhost"
+							],
+							"port": "4200",
+							"path": [
+								"products",
+								"newpromopost"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "US 0001 - Follow um determinado vendedor",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "idUser",
+						"value": "2",
+						"type": "text"
+					},
+					{
+						"key": "userIdToFollow",
+						"value": "1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:4200/users/{idUser}/follow/{userIdToFollow}",
+					"host": [
+						"localhost"
+					],
+					"port": "4200",
+					"path": [
+						"users",
+						"{idUser}",
+						"follow",
+						"{userIdToFollow}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "US 0002 - Mostra Total Seguidores de Um vendedor",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "idSeller",
+						"value": "1",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:4200/sellers/{idSeller}/followers/count/",
+					"host": [
+						"localhost"
+					],
+					"port": "4200",
+					"path": [
+						"sellers",
+						"{idSeller}",
+						"followers",
+						"count",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "US 0003 - Obter uma lista de todos os usuários que seguem um determinado vendedor (quem me segue?)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "idSeller",
+						"value": "1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:4200/sellers/{idSeller}/followers/list",
+					"host": [
+						"localhost"
+					],
+					"port": "4200",
+					"path": [
+						"sellers",
+						"{idSeller}",
+						"followers",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "US 0004 - Obter uma lista de todos os vendedores que um determinado usuário segue (quem estou seguindo?)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "idUser",
+						"value": "2",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:4200/users/{idUser}/followers/list",
+					"host": [
+						"localhost"
+					],
+					"port": "4200",
+					"path": [
+						"users",
+						"{idUser}",
+						"followers",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "US 0005 - Cadastrar uma nova publicação Copy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"seller\": 1,\n    \"date\": \"07.06.2021\",\n    \"detail\": {\n        \"productName\": \"Camiseta NBA Pocket Logo Chicago Bulls\",\n        \"type\": \"manga 3/4\",\n        \"brand\": \"Chicago Bulls\",\n        \"color\": \"Black\",\n        \"notes\": \"female\"\n    },\n    \"category\": 1,\n    \"price\": 69.99\n}"
+				},
+				"url": {
+					"raw": "localhost:4200/products/newpost",
+					"host": [
+						"localhost"
+					],
+					"port": "4200",
+					"path": [
+						"products",
+						"newpost"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "US 0007 - Ser capaz de realizar a ação de “Deixar de seguir” (parar de seguir) um determinado vendedor.",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "idUser",
+						"value": "2",
+						"type": "text"
+					},
+					{
+						"key": "userIdToUnfollow",
+						"value": "1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:4200/users/{idUser}/unfollow/{userIdToUnfollow}",
+					"host": [
+						"localhost"
+					],
+					"port": "4200",
+					"path": [
+						"users",
+						"{idUser}",
+						"unfollow",
+						"{userIdToUnfollow}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "US 0010 - Realizar a publicação de um novo produto promocional Copy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"seller\": 1,\n    \"date\": \"02.06.2021\",\n    \"detail\": {\n        \"productName\": \"Camiseta Infantil NBA Chicago Bulls\",\n        \"type\": \"manga 3/4\",\n        \"brand\": \"Chicago Bulls\",\n        \"color\": \"Black\",\n        \"notes\": \"male\"\n    },\n    \"category\": 1,\n    \"price\": 39.99,\n    \"hasPromo\": true,\n    \"discount\": 50.0\n}"
+				},
+				"url": {
+					"raw": "localhost:4200/products/newpromopost",
+					"host": [
+						"localhost"
+					],
+					"port": "4200",
+					"path": [
+						"products",
+						"newpromopost"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

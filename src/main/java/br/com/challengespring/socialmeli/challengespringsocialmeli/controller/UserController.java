@@ -1,5 +1,8 @@
 package br.com.challengespring.socialmeli.challengespringsocialmeli.controller;
 
+import br.com.challengespring.socialmeli.challengespringsocialmeli.dto.UserDTO;
+import br.com.challengespring.socialmeli.challengespringsocialmeli.entity.Post;
+import br.com.challengespring.socialmeli.challengespringsocialmeli.entity.Seller;
 import br.com.challengespring.socialmeli.challengespringsocialmeli.entity.User;
 import br.com.challengespring.socialmeli.challengespringsocialmeli.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -16,50 +20,67 @@ public class UserController {
     @Autowired
     UserService service;
 
-    // Post
-    // localhost:4200/users/{userId}/follow/{userIdToFollow}
-    //  US 0001: Ser capaz de realizar a ação de “Follow” (seguir) a um determinado vendedor
-    //  Status Code 200 (tudo OK)
-    //  Status Code 400 (Bad Request)
     @PostMapping("/users/newuser")
-    public ResponseEntity<User> newUser(@RequestBody @Validated User user){
-        System.out.println(user);
+    public ResponseEntity<UserDTO> newUser(@RequestBody @Validated User user){
         if(user != null) {
-        return new ResponseEntity<User>(service.newUser(user), HttpStatus.CREATED);
+        return new ResponseEntity<UserDTO>(service.newUser(user), HttpStatus.CREATED);
         } else {
-            return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<UserDTO>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/users/{idUser}")
-    public Optional<User> getUser(@RequestHeader @Validated Long idUser){
-        return service.getUser(idUser);
-//        if(idUser != null) {
-//            return new ResponseEntity<User>(service.getUser(idUser), HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
-//        }
+    public ResponseEntity<UserDTO> buscarUserPorId(@RequestHeader("idUser") Long idUser){
+        UserDTO userIn = service.getUserById(idUser);
+        if (userIn!=null){
+            return new ResponseEntity<>(userIn, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    // US 0001 - Follow um determinado vendedor
+    //TODO: Verificar porque vendedor seguir vendedor esta com erro
+    @PutMapping("/users/{idUser}/follow/{userIdToFollow}")
+    public ResponseEntity<User> followUser(@RequestHeader @Validated Long idUser, @RequestHeader @Validated Long userIdToFollow){
+        Optional<User> userIn = Optional.ofNullable(service.follow(idUser, userIdToFollow));
+        if (!userIn.isPresent()){
+            return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<User>(userIn.get(), HttpStatus.OK);
+        }
+    }
+
+    // US 0007 - Ser capaz de realizar a ação de “Deixar de seguir” (parar de seguir) um determinado vendedor.
+    //TODO: Verificar porque vendedor seguir vendedor esta com erro
+    @PutMapping("/users/{idUser}/unfollow/{userIdToUnfollow}")
+    public ResponseEntity<User> unfollowUser(@RequestHeader @Validated Long idUser, @RequestHeader @Validated Long userIdToUnfollow){
+        Optional<User> userIn = Optional.ofNullable(service.unfollow(idUser, userIdToUnfollow));
+        if (!userIn.isPresent()){
+            return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<User>(userIn.get(), HttpStatus.OK);
+        }
+    }
+
+    //  US 0004: Obter uma lista de todos os vendedores que um determinado usuário segue (quem estou seguindo?)
+    //TODO: Adicionar exceptions
+    @GetMapping("/users/{idUser}/followers/list")
+    public List<Seller> listFollowers(@RequestHeader("idUser") @Validated Long idUser){
+        List<Seller> sellers = service.listFollowers(idUser);
+        return sellers;
+    }
+
+    //  US 0006 - Obter uma lista das publicações feitas pelos vendedores que um usuário
+    //TODO: Adicionar exceptions
+    @GetMapping("/products/followed/{idUser}/list")
+    public List<Post> postListOfSellersThatUserFollows(@RequestHeader("idUser") @Validated Long idUser){
+        List<Post> listPost = service.getPostListOfSellersThatUserFollows(idUser);
+        return listPost;
     }
 
     // Get
-    // localhost:4200/users/{userId}/followers/count/
-    //  US 0002: Obter o resultado do número de usuários que seguem um determinado vendedor
-    //  Status Code 200 (tudo OK)
-    //  Status Code 400 (Bad Request)
-
-
-    // Get
-    // localhost:4200/users/{UserID}/followers/list
-    //  US 0004: Obter uma lista de todos os vendedores que um determinado usuário segue (quem estou seguindo?)
-    //  Status Code 200 (tudo OK)
-    //  Status Code 400 (Bad Request)
-
-    // Post
-    // localhost:4200/users/{userId}/unfollow/{userIdToUnfollow}
-    //  US 0007: Ser capaz de realizar a ação de “Deixar de seguir” (parar de seguir) um determinado vendedor.
-
-    // Get
-    // localhost:4200/users/{UserID}/followers/list?order=name_asc
+    // localhost:4200/users/{userId}/followers/list?order=name_asc
     // /users/{UserID}/followers/list?order=name_desc
     // /users/{UserID}/followed/list?order=name_asc
     // /users/{UserID}/followed/list?order=name_desc

@@ -1,5 +1,6 @@
 package br.com.challengespring.socialmeli.challengespringsocialmeli.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,8 +19,9 @@ public class Detail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idProduct;
 
-    @ManyToOne
-    @JoinColumn(name = "idPost")
+    @OneToOne
+    @PrimaryKeyJoinColumn
+    @JsonIgnoreProperties("detail")
     private Post post;
 
     @NotNull

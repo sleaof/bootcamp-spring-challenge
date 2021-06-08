@@ -1,5 +1,6 @@
 package br.com.challengespring.socialmeli.challengespringsocialmeli.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,6 +27,6 @@ public class User implements Serializable {
     @NotNull
     private Boolean isSeller = false;
 
-    @OneToMany
+    @ManyToMany(mappedBy = "followers", cascade = CascadeType.ALL)
     private List<Seller> followed;
 }

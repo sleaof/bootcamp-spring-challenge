@@ -1,7 +1,9 @@
 package br.com.challengespring.socialmeli.challengespringsocialmeli.controller;
 
+import br.com.challengespring.socialmeli.challengespringsocialmeli.dto.PostHasPromoDTO;
 import br.com.challengespring.socialmeli.challengespringsocialmeli.entity.Post;
 import br.com.challengespring.socialmeli.challengespringsocialmeli.service.PostService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,19 +14,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Controller
 public class PromotionalController {
 
+    @Autowired
     PostService service;
 
-    // Post
-    // US 0010: Realizar a publicação de um novo produto promocional
-    // localhost:4200/products/newpromopost
-    // Status Code 200 (OK)
-    // Status Code 400 (Bad request)
+    // US 0010 - Realizar a publicação de um novo produto promocional
     @PostMapping("/products/newpromopost")
-    public ResponseEntity<Post> newPost(@RequestBody @Validated Post post){
+    public ResponseEntity<PostHasPromoDTO> newPromoPost(@RequestBody @Validated Post post){
         if(post != null) {
-            return new ResponseEntity<Post>(service.newPost(post), HttpStatus.CREATED);
+            return new ResponseEntity<PostHasPromoDTO>(service.newPostHasPromo(post), HttpStatus.CREATED);
         } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<PostHasPromoDTO>(HttpStatus.BAD_REQUEST);
         }
     }
 

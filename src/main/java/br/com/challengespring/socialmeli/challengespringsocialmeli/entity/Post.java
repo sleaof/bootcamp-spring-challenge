@@ -1,7 +1,7 @@
 package br.com.challengespring.socialmeli.challengespringsocialmeli.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,21 +18,17 @@ import static com.fasterxml.jackson.annotation.JsonFormat.*;
 @Entity
 public class Post {
 
-    @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idUser", referencedColumnName = "idUser")
-    private User user;
+    private Long seller;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPost;
 
     @JsonFormat(shape = Shape.STRING,pattern = "dd.MM.yyyy")
-    private LocalDate date;
+    private LocalDate date = LocalDate.now();
 
-    @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idProduct", referencedColumnName = "idProduct")
+    @OneToOne(mappedBy = "idPost", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("idPost")
     private Detail detail;
 
     @NotNull
