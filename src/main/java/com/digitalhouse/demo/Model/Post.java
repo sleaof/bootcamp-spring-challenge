@@ -1,32 +1,52 @@
 package com.digitalhouse.demo.Model;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-public class Post {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Entity
+public class Post implements Serializable {
+
+
     private int userId;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_post;
-    private Date date;
+    private LocalDateTime date;
+
+    @ManyToMany
+    @JoinTable
     private List<Detail> detail = new ArrayList<>();
     private Integer category;
-    private Double price;
 
-    public Post(int userId, int id_post, Date date, List<Detail> detail, Integer category, Double price) {
+    @JsonIgnore
+    @ManyToMany(mappedBy = "posts")
+    private List<Seller> seller;
+
+    public Post(int userId, int id_post, LocalDateTime date, List<Detail> detail, Integer category, List<Seller> seller) {
         this.userId = userId;
         this.id_post = id_post;
         this.date = date;
         this.detail = detail;
         this.category = category;
-        this.price = price;
+        this.seller = seller;
+    }
+
+    public Post() {
+
+    }
+
+    public List<Seller> getSeller() {
+        return seller;
+    }
+
+    public void setSeller(List<Seller> seller) {
+        this.seller = seller;
     }
 
     public int getUserId() {
@@ -45,11 +65,11 @@ public class Post {
         this.id_post = id_post;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
@@ -69,24 +89,16 @@ public class Post {
         this.category = category;
     }
 
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Post post = (Post) o;
-        return getUserId() == post.getUserId() && getId_post() == post.getId_post() && getDate().equals(post.getDate()) && getDetail().equals(post.getDetail()) && getCategory().equals(post.getCategory()) && getPrice().equals(post.getPrice());
+        return getUserId() == post.getUserId() && getId_post() == post.getId_post() && getDate().equals(post.getDate()) && getDetail().equals(post.getDetail()) && getCategory().equals(post.getCategory());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getUserId(), getId_post(), getDate(), getDetail(), getCategory(), getPrice());
+        return Objects.hash(getUserId(), getId_post(), getDate(), getDetail(), getCategory());
     }
 }

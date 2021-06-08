@@ -5,10 +5,6 @@ import java.io.Serializable;
 import java.util.List;
 @Entity
 public class Buyer extends User implements Serializable {
-//
-//    public Buyer(Integer userId, String userName, Boolean seller, List<User> followers) {
-//        super(userId, userName, seller, followers);
-//    }
 
     public Buyer(Integer userId, String userName, Boolean seller) {
         super(userId, userName, seller);

@@ -1,10 +1,10 @@
 package com.digitalhouse.demo.Model;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
+@Entity
 public class Detail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,14 +14,23 @@ public class Detail {
     private String brand;
     private String color;
     private String notes;
+    private Double price;
+    @ManyToMany(mappedBy = "detail",cascade = CascadeType.ALL)
+    private List<Post> post;
 
-    public Detail(int product_id, String productName, String type, String brand, String color, String notes) {
+
+    public Detail(int product_id, String productName, String type, String brand, String color, String notes, Double price) {
         this.product_id = product_id;
         this.productName = productName;
         this.type = type;
         this.brand = brand;
         this.color = color;
         this.notes = notes;
+        this.price = price;
+    }
+
+    public Detail() {
+
     }
 
     public int getProduct_id() {
@@ -70,6 +79,14 @@ public class Detail {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     @Override

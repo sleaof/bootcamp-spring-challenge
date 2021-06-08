@@ -21,10 +21,6 @@ public class UserService {
     @Autowired
     private UserRepository user;
 
-    // @Autowired
-    //  private FollowersTotalRepository followersTotalRepository;
-
-
     @Autowired
     private SellerRepository sellerRepository;
 
@@ -93,6 +89,7 @@ public class UserService {
         }
         return followersDTO;
     }
+
     public FollowedDTO followedTotal(Integer userId){
 
         FollowedDTO followedDTO = null;
@@ -112,5 +109,25 @@ public class UserService {
             System.out.println("usuario é vendendor");
         }
         return followedDTO;
+    }
+
+    public String unFollow(Integer userId, Integer userIdToUnFollow){
+
+        Boolean sellerUser = user.findById(userId).get().getSeller();
+        Boolean buyer = user.findById(userId).get().getSeller();
+        Boolean seller = user.findById(userIdToUnFollow).get().getSeller();
+        User user1 = null;
+        if (buyer.equals(false) && seller.equals(true) || seller.equals(true) && sellerUser.equals(true)) {
+
+            user1 = user.findById(userId).get();
+            user1.getFollows().remove(user.findById(userIdToUnFollow).get());
+            user.save(user1);
+            System.out.println();
+
+        } else {
+            System.out.println("nao foi possivel");
+        }
+
+        return "Voce deixou de seguir";
     }
 }

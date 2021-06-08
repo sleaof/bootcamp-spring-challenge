@@ -18,6 +18,7 @@ public class User implements Serializable {
     @Column
     private Boolean seller;
 
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable
     private List<Seller> follows = new ArrayList<>();

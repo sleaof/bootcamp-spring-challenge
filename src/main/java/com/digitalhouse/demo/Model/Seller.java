@@ -14,19 +14,25 @@ public class Seller extends User implements Serializable {
     @ManyToMany(mappedBy = "follows",cascade = CascadeType.ALL)
     private List<User> followers = new ArrayList<>();
 
-    public Seller(Integer userId, String userName, Boolean seller, List<User> followers) {
-        super(userId, userName, seller, followers);
+    @ManyToMany
+    @JoinTable
+    private List<Post> posts = new ArrayList<>();
+
+    public Seller(Integer userId, String userName, Boolean seller, List<User> follows, List<User> followers, List<Post> posts) {
+        super(userId, userName, seller, follows);
+        this.followers = followers;
+        this.posts = posts;
     }
 
     public Seller() {
     }
 
-    public List<User> getFollowersTotal() {
-        return followers;
+    public List<Post> getPosts() {
+        return posts;
     }
 
-    public void setFollowersTotal(List<User> followersTotal) {
-        this.followers = followersTotal;
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
 
     public List<User> getFollowers() {
