@@ -11,7 +11,7 @@ onde os compradores poderão acompanhar seus vendedores favoritos e saber todas 
 
 # Modelo Conceitual
 
-![Modelo Conceitual](https://github.com/sleaof/bootcamp-spring-challenge/new/JessikaFernandes)
+![Modelo Conceitual](https://github.com/sleaof/bootcamp-spring-challenge/blob/JessikaFernandes/blob/develop/assets/ModeloConceitual.png)
 
 # Montando ambiente:
 
