@@ -22,7 +22,7 @@ public class User {
 
     @ManyToMany
     @JoinTable(
-            name = "follows",
+            name = "follow",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "seller_id")
     )
