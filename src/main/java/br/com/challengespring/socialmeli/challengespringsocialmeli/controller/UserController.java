@@ -43,12 +43,12 @@ public class UserController {
     // US 0001 - Follow um determinado vendedor
     //TODO: Verificar porque vendedor seguir vendedor esta com erro
     @PutMapping("/users/{idUser}/follow/{userIdToFollow}")
-    public ResponseEntity<FollowdSellerDTO> followUser(@RequestHeader @Validated Long idUser, @RequestHeader @Validated Long userIdToFollow){
-        FollowdSellerDTO followdSellerDTO = service.follow(idUser, userIdToFollow);
-        if (followdSellerDTO!=null){
-            return new ResponseEntity<FollowdSellerDTO>(followdSellerDTO, HttpStatus.OK);
+    public ResponseEntity<User> followUser(@RequestHeader @Validated Long idUser, @RequestHeader @Validated Long userIdToFollow){
+        User user = service.follow(idUser, userIdToFollow);
+        if (user!=null){
+            return new ResponseEntity<User>(user, HttpStatus.OK);
         } else {
-            return new ResponseEntity<FollowdSellerDTO>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
         }
     }
 
