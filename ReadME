@@ -1,0 +1,382 @@
+
+Primeiramente vamos criar 05 User, sendo 03 vendedores
+EndPoint(POST): localhost:8080/SocialMeli/addUsers
+
+{
+    "name" : "Gabriel",
+    "seller": false
+}
+
+{
+    "name" : "Bruna",
+    "seller": false
+}
+
+{
+    "name" : "Marcus",
+    "seller": true
+}
+
+{
+    "name" : "Gustavo",
+    "seller": true
+}
+{
+    "name" : "Victor",
+    "seller": true
+}
+
+==============================================================
+===============US001 - Seguir um vendedor ====================
+==============================================================
+EndPoint:localhost:8080/SocialMeli/users/1/follow/3
+
+Nesse caso, estamos falando que o user  Gabriel esta seguindo o seller Marcus
+
+Com a finalidade de testes posteriores. faça
+localhost:8080/SocialMeli/users/2/follow/3
+localhost:8080/SocialMeli/users/1/follow/4
+localhost:8080/SocialMeli/users/1/follow/5
+
+==============================================================
+=========US002 - Quantidade de Pessoas que Seguem ============
+==============================================================
+EndPoint:localhost:8080/SocialMeli/users/3/followers/count/
+
+Temos o retorno em Json, da quantidade de seguidores que o 03 = Marcus tem
+
+{
+    "id": 3,
+    "name": "Marcus",
+    "followersCount": 2
+}
+
+
+==============================================================
+========= US003 - Listar Pessoas que Seguem ==================
+==============================================================
+EndPoint(GET): localhost:8080/SocialMeli/users/3/followers/list
+
+Temos um retorno das pessoas que seguem o Marcus... apenas vededores
+
+{
+    "id": 3,
+    "name": "Marcus",
+    "follows": [
+        {
+            "id": 1,
+            "name": "Gabriel"
+        },
+        {
+            "id": 2,
+            "name": "Bruna"
+        }
+    ]
+}
+
+
+==============================================================
+========= US004 - Listar Pessoas que Sigo ====================
+==============================================================
+EndPoint(GET): localhost:8080/SocialMeli/users/1/followed/list
+Nessa caso, vamos listar as pessoas que o 01=Gabriel, segue
+
+Temos:
+{
+    "id": 1,
+    "name": "Gabriel",
+    "followed": [
+        {
+            "id": 3,
+            "name": "Marcus"
+        },
+        {
+            "id": 4,
+            "name": "Gustavo"
+        },
+        {
+            "id": 5,
+            "name": "Victor"
+        }
+    ]
+}
+
+
+==============================================================
+========= US005 - Cadastrar uma Publicacao ===================
+==============================================================
+EndPoint(POST):localhost:8080/SocialMeli/products/newpost
+
+Aqui passamos um Json, com a publicao de um vendedor
+
+{
+    "userID" : 3,
+    "date" :  "2021-05-02",
+    "products" :  [
+            {
+            "productName" : "Cadeira Gamer",
+            "type" : "gamer",
+            "brand" : "Racer",
+            "color" : "Red & Black",
+            "notes" : "Special Edition"
+        }
+    ],
+    "category" : "esetup",
+    "price" : 500.00
+}
+
+{
+    "userID" : 4,
+    "date" :  "2021-06-02",
+    "products" :  [
+            {
+            "productName" : "Mouse Razer",
+            "type" : "gamer",
+            "brand" : "Speed",
+            "color" : "Gren",
+            "notes" : "Death"
+        }
+    ],
+    "category" : "setup",
+    "price" : 350.00
+}
+
+{
+    "userID" : 5,
+    "date" :  "2021-06-05",
+    "products" :  [
+            {
+            "productName" : "Clound Revolverv2",
+            "type" : "gamer",
+            "brand" : "Speed",
+            "color" : "Black",
+            "notes" : "Death"
+        }
+    ],
+    "category" : "periferico",
+    "price" : 450.00
+}
+
+
+==============================================================
+= US006 - Obter a list de Publicacoes de vendedores que sigo =
+==============================================================
+EndPoint(GET):localhost:8080/SocialMeli/products/followed/1/list
+
+Aqui vamos obter os posts dos sellers que o Gabriel Segue nas duas ultimas semanas
+
+Temos:
+{
+    "id": 1,
+    "posts": [
+        {
+            "userID": 4,
+            "date": "2021-06-02",
+            "products": [
+                {
+                    "productName": "Mouse Razer",
+                    "type": "gamer",
+                    "brand": "Speed",
+                    "color": "Gren",
+                    "notes": "Death"
+                }
+            ],
+            "category": "setup",
+            "price": 350.0
+        },
+        {
+            "userID": 5,
+            "date": "2021-06-05",
+            "products": [
+                {
+                    "productName": "Clound Revolverv2",
+                    "type": "gamer",
+                    "brand": "Speed",
+                    "color": "Black",
+                    "notes": "Death"
+                }
+            ],
+            "category": "periferico",
+            "price": 450.0
+        }
+    ]
+}
+
+==============================================================
+========= US007 - Deixar de Seguir um Vendedor  ==============
+==============================================================
+EndPoint(POST):localhost:8080/SocialMeli/users/2/unfollow/3
+
+Aqui vamos dizer que o user 2 = Bruna, vai deixar de seguir o seller 3 = Marcus
+
+Se executarmos o US002 novamente.
+Temos:
+{
+    "id": 3,
+    "name": "Marcus",
+    "followersCount": 1
+}
+
+Ou seja, Marcus perdeu 1 seguimores
+
+
+==============================================================
+========= US008 - Ordenar Seguidores por ordem  ==============
+==============================================================
+EndPoit(GET)localhost:8080/SocialMeli/users/3/followers/listOrder?order=name_desc
+Temos:
+{
+    "id": 3,
+    "name": "Marcus",
+    "followers": [
+        {
+            "id": 2,
+            "name": "Bruna"
+        },
+        {
+            "id": 1,
+            "name": "Gabriel"
+        }
+    ]
+}
+EndPoit(GET)localhost:8080/SocialMeli/users/3/followers/listOrder?order=name_asc
+{
+    "id": 3,
+    "name": "Marcus",
+    "followers": [
+        {
+            "id": 1,
+            "name": "Gabriel"
+        },
+        {
+            "id": 2,
+            "name": "Bruna"
+        }
+    ]
+}
+
+
+==============================================================
+====== US009 - Ordenar Publicacoes por Ordem(ASC/DESC ========
+==============================================================
+EndPoint(GET) localhost:8080/SocialMeli/products/followed/1/listOrder?order=date_asc
+Temos:
+{
+    "id": 1,
+    "posts": [
+        {
+            "userID": 3,
+            "date": "2021-05-02",
+            "products": [
+                {
+                    "productName": "Cadeira Gamer",
+                    "type": "gamer",
+                    "brand": "Racer",
+                    "color": "Red & Black",
+                    "notes": "Special Edition"
+                }
+            ],
+            "category": "esetup",
+            "price": 500.0
+        },
+        {
+            "userID": 4,
+            "date": "2021-06-02",
+            "products": [
+                {
+                    "productName": "Mouse Razer",
+                    "type": "gamer",
+                    "brand": "Speed",
+                    "color": "Gren",
+                    "notes": "Death"
+                }
+            ],
+            "category": "setup",
+            "price": 350.0
+        },
+        {
+            "userID": 5,
+            "date": "2021-06-05",
+            "products": [
+                {
+                    "productName": "Clound Revolverv2",
+                    "type": "gamer",
+                    "brand": "Speed",
+                    "color": "Black",
+                    "notes": "Death"
+                }
+            ],
+            "category": "periferico",
+            "price": 450.0
+        }
+    ]
+}
+
+EndPoint(GET) localhost:8080/SocialMeli/products/followed/1/listOrder?order=date_desc
+Temos:
+{
+    "id": 1,
+    "posts": [
+        {
+            "userID": 5,
+            "date": "2021-06-05",
+            "products": [
+                {
+                    "productName": "Clound Revolverv2",
+                    "type": "gamer",
+                    "brand": "Speed",
+                    "color": "Black",
+                    "notes": "Death"
+                }
+            ],
+            "category": "periferico",
+            "price": 450.0
+        },
+        {
+            "userID": 4,
+            "date": "2021-06-02",
+            "products": [
+                {
+                    "productName": "Mouse Razer",
+                    "type": "gamer",
+                    "brand": "Speed",
+                    "color": "Gren",
+                    "notes": "Death"
+                }
+            ],
+            "category": "setup",
+            "price": 350.0
+        },
+        {
+            "userID": 3,
+            "date": "2021-05-02",
+            "products": [
+                {
+                    "productName": "Cadeira Gamer",
+                    "type": "gamer",
+                    "brand": "Racer",
+                    "color": "Red & Black",
+                    "notes": "Special Edition"
+                }
+            ],
+            "category": "esetup",
+            "price": 500.0
+        }
+    ]
+}
+
+==============================================================
+==================== OBSERVACOES =============================
+
+Os exercicios bonus estao em desenvolvimento, porem nao estao desenvolvidos e apresentados
+Falta algumas validacoes.
+
+Como opter por fazer com Banco, ja que muitos do bootcamp acataram a ideia....
+Mesmo sem ter visto JPA, estou feliz com minha evolucao e desempenho, so nao terminei os bonus por questao de tempo
+Pois parava para estudar alguns topicos e conceitos teoricos sobre JPA.
+
+Gostaria de refatorar  o codigo, para enxugar ainda mais meus metodos, esta legivil, porém daria pra deixar uma leitura mais "clean"
+
+Estou feliz e contente com minha evolução
+
+Obrigado, galera!!

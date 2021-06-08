@@ -97,7 +97,7 @@ public class UserController {
     //US 0009: Classificar por data crescente e decrescente
     @GetMapping("/products/followed/{userId}/listOrder")
     public ListPostDTO listPostOrder(@PathVariable Long userId, @RequestParam(value = "order") String order){
-        if(order.equalsIgnoreCase("name_asc")){
+        if(order.equalsIgnoreCase("date_asc")){
             return userService.listPostAsc(userId);
         }
         return userService.listPostDesc(userId);
