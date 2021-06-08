@@ -1,12 +1,15 @@
 package com.digitalhouse.demo.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
@@ -14,15 +17,17 @@ public class User {
     private String userName;
     @Column
     private Boolean seller;
-    @ManyToMany
-    @JoinTable
-    private List<User> followers = new ArrayList<>();
 
-    public User(Integer userId, String userName, Boolean seller, List<User> followers) {
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable
+    private List<Seller> follows = new ArrayList<>();
+
+
+    public User(Integer userId, String userName, Boolean seller, List<User> follows) {
         this.userId = userId;
         this.userName = userName;
         this.seller = seller;
-        followers = followers;
+        follows = follows;
     }
 
     public User(){
@@ -33,12 +38,12 @@ public class User {
     public User(Integer userId, String userName, Boolean seller) {
     }
 
-
-    public List<User> getFollowers() {
-        return followers;
+    public List<Seller> getFollows() {
+        return follows;
     }
-    public void setFollowers(List<User> followers) {
-        this.followers = followers;
+
+    public void setFollows(List<Seller> follows) {
+        this.follows = follows;
     }
 
     public Boolean getSeller() {
@@ -76,5 +81,15 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(getUserId());
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", seller=" + seller +
+                ", followers=" + follows +
+                '}';
     }
 }

@@ -1,13 +1,14 @@
 package com.digitalhouse.demo.Model;
 
 import javax.persistence.Entity;
+import java.io.Serializable;
 import java.util.List;
 @Entity
-public class Buyer extends User{
-
-    public Buyer(Integer userId, String userName, Boolean seller, List<User> followers) {
-        super(userId, userName, seller, followers);
-    }
+public class Buyer extends User implements Serializable {
+//
+//    public Buyer(Integer userId, String userName, Boolean seller, List<User> followers) {
+//        super(userId, userName, seller, followers);
+//    }
 
     public Buyer(Integer userId, String userName, Boolean seller) {
         super(userId, userName, seller);
@@ -17,14 +18,10 @@ public class Buyer extends User{
     }
 
     @Override
-    public List<User> getFollowers() {
-        return super.getFollowers();
+    public List<Seller> getFollows() {
+        return super.getFollows();
     }
 
-    @Override
-    public void setFollowers(List<User> followers) {
-        super.setFollowers(followers);
-    }
     @Override
     public Boolean getSeller() {
         return super.getSeller();
@@ -54,6 +51,5 @@ public class Buyer extends User{
     public void setUserId(Integer userId) {
         super.setUserId(userId);
     }
-
 
 }

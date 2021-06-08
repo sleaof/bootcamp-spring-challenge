@@ -1,20 +1,18 @@
 package com.digitalhouse.demo.Model;
 
-import com.digitalhouse.demo.DTOs.UserDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Seller extends User{
-    @Column
-    @OneToMany(cascade=CascadeType.ALL)
-    @ElementCollection(targetClass=User.class)
-    private List<User> followersTotal = new ArrayList<>();
+public class Seller extends User implements Serializable {
 
+    @ManyToMany(mappedBy = "follows",cascade = CascadeType.ALL)
+    private List<User> followers = new ArrayList<>();
 
     public Seller(Integer userId, String userName, Boolean seller, List<User> followers) {
         super(userId, userName, seller, followers);
@@ -23,23 +21,20 @@ public class Seller extends User{
     public Seller() {
     }
 
-
     public List<User> getFollowersTotal() {
-        return followersTotal;
+        return followers;
     }
 
     public void setFollowersTotal(List<User> followersTotal) {
-        this.followersTotal = followersTotal;
+        this.followers = followersTotal;
     }
 
-    @Override
     public List<User> getFollowers() {
-        return super.getFollowers();
+        return followers;
     }
 
-    @Override
     public void setFollowers(List<User> followers) {
-        super.setFollowers(followers);
+        this.followers = followers;
     }
 
     @Override

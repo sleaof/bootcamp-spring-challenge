@@ -2,26 +2,17 @@ package com.digitalhouse.demo.DTOs;
 
 import com.digitalhouse.demo.Model.User;
 
-import javax.persistence.ManyToMany;
+import java.util.List;
 
-public class UserDTO {
+public class FollowersDTO {
     private Integer userId;
     private String userName;
-    private Boolean seller;
+    private List<SellerDTO> followers;
 
-    public UserDTO(Integer userId, String userName, Boolean seller) {
+    public FollowersDTO(Integer userId, String userName, List<SellerDTO> followers) {
         this.userId = userId;
         this.userName = userName;
-        this.seller = seller;
-    }
-
-    public UserDTO() {
-    }
-
-    public UserDTO(User user){
-        this.userId = user.getUserId();
-        this.userName = user.getUserName();
-        this.seller = user.getSeller();
+        this.followers = followers;
     }
 
     public Integer getUserId() {
@@ -40,11 +31,11 @@ public class UserDTO {
         this.userName = userName;
     }
 
-    public Boolean getSeller() {
-        return seller;
+    public List<SellerDTO> getFollowers() {
+        return followers;
     }
 
-    public void setSeller(Boolean seller) {
-        this.seller = seller;
+    public void setFollowers(List<SellerDTO> followers) {
+        this.followers = followers;
     }
 }

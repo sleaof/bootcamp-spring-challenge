@@ -1,6 +1,9 @@
 package com.digitalhouse.demo.Controller;
 
-import com.digitalhouse.demo.DTOs.UserDTO;
+import com.digitalhouse.demo.DTOs.BuyerDTO;
+import com.digitalhouse.demo.DTOs.FollowedDTO;
+import com.digitalhouse.demo.DTOs.FollowersDTO;
+import com.digitalhouse.demo.DTOs.UserCountDTO;
 import com.digitalhouse.demo.Model.Buyer;
 import com.digitalhouse.demo.Model.Seller;
 import com.digitalhouse.demo.Model.User;
@@ -10,9 +13,6 @@ import com.digitalhouse.demo.Repository.UserRepository;
 import com.digitalhouse.demo.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping
@@ -30,36 +30,38 @@ public class SpringChallengeController {
     @Autowired
     private BuyerRepository buyerRepository;
 
+    //@Autowired
+    //private FollowersTotalRepository followersTotalRepository;
+
     @PostMapping("/seller")
     public Seller createUsuario(@RequestBody Seller seller){
         return sellerRepository.save(seller);
-    }
-    @GetMapping("/seller")
-    public List<Seller> pegarVendedor(){
-        return sellerRepository.findAll();
     }
 
     @PostMapping("/user")
     public User createUsuario(@RequestBody Buyer buyer){
         return buyerRepository.save(buyer);
     }
-    @GetMapping("/user")
-    public List<Buyer> pegarUsuario(){
-        return buyerRepository.findAll();
-    }
-    @GetMapping("/geral")
-    public List<User> geralUsuario(){
-        return userRepository.findAll();
+
+    @GetMapping("/users/{userId}/followers/count")
+    public UserCountDTO geralFollow(@PathVariable Integer userId){
+
+        return userService.count(userId);
     }
 
     @PostMapping("/users/{userId}/follow/{userIdToFollow}")
-    public User followTosellerById(@PathVariable Integer userId, @PathVariable int userIdToFollow){
-
-        User userFollowed = userRepository.findById(userIdToFollow).get();
-        UserDTO user = new UserDTO(userFollowed);
-        userService.transformaUsuario(user);
-
+    public BuyerDTO followTosellerById(@PathVariable Integer userId, @PathVariable int userIdToFollow){
         return userService.followed(userId,userIdToFollow);
+
+    }
+    @GetMapping("/users/{userId}/followers/list")
+    public FollowersDTO ListFollowers(@PathVariable Integer userId){
+        return userService.followersTotal(userId);
+
+    }
+    @GetMapping("/users/{userId}/followed/list")
+    public FollowedDTO ListFollowed(@PathVariable Integer userId){
+        return userService.followedTotal(userId);
 
     }
 }
