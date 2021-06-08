@@ -39,14 +39,22 @@ public class ProductController {
     }
 
     @GetMapping("/followed/{userId}/orderedList")
-    public PostsBySellersDTO sortFollowedByData(@PathVariable Integer userId, @RequestParam(value = "order") String order) {
+    public ResponseEntity<PostsBySellersDTO> sortFollowedByData(@PathVariable Integer userId, @RequestParam(value = "order") String order) {
+        if (validation.validateIsEmpty(userId) || !validation.validateById(userId))
+            return new ResponseEntity(new NotFoundException("User not found."), HttpStatus.NOT_FOUND);
+
+        if (validation.validateIfIsASeller(userId))
+            return new ResponseEntity(new BadRequestException("Invalid operation. If you're a seller, you don't have followed."), HttpStatus.BAD_REQUEST);
+
         PostsBySellersDTO postsBySellersDTO = new PostsBySellersDTO();
         if (order.equalsIgnoreCase("date_asc")) {
             postsBySellersDTO.setPosts(service.sortFollowedByDataAsc(userId));
-            return postsBySellersDTO;
-        } else {
+            return new ResponseEntity(postsBySellersDTO, HttpStatus.OK);
+        } else if (order.equalsIgnoreCase("date_desc")){
             postsBySellersDTO.setPosts(service.sortFollowedByDataDesc(userId));
-            return postsBySellersDTO;
+            return new ResponseEntity(postsBySellersDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity(new BadRequestException("Your operation could not be completed. Check the information."), HttpStatus.BAD_REQUEST);
         }
     }
 }

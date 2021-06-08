@@ -110,7 +110,7 @@ public class UserController {
             return new ResponseEntity(new NotFoundException("User not found."), HttpStatus.NOT_FOUND);
 
         if (validation.validateIfIsASeller(userId))
-            return new ResponseEntity(new BadRequestException("Invalid operation. If you're not a seller, you don't have followers."), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new BadRequestException("Invalid operation. If you're a seller, you don't have followed."), HttpStatus.BAD_REQUEST);
 
         if (order.equalsIgnoreCase("name_asc")) {
             return new ResponseEntity(service.sortFollowedByNameAsc(userId), HttpStatus.OK);

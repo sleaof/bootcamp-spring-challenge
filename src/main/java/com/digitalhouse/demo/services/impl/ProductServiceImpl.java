@@ -23,16 +23,22 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public CreateANewPostDTO createANewPost(Post post) {
+    public PostDTO createANewPost(Post post) {
         post.setUser(userRepository.findById(post.getUserId()).get());
         productRepository.save(post.getDetail());
         postRepository.save(post);
 
-        return new CreateANewPostDTO(
+        return new PostDTO(
                 post.getUser().getUserId(),
                 post.getPostId(),
                 post.getDate(),
-                post.getDetail(),
+                new ProductDTO(post.getDetail().getProductId(),
+                        post.getDetail().getProductName(),
+                        post.getDetail().getType(),
+                        post.getDetail().getBrand(),
+                        post.getDetail().getColor(),
+                        post.getDetail().getNotes()
+                        ),
                 post.getCategory(),
                 post.getPrice()
         );

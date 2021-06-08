@@ -1,21 +1,19 @@
 package com.digitalhouse.demo.dtos;
-
-import com.digitalhouse.demo.entities.Product;
 import java.time.LocalDate;
 
-public class CreateANewPostDTO {
+public class PostDTO {
 
     private Integer userId;
     private Integer postId;
     private LocalDate date;
-    private Product detail;
+    private ProductDTO detail;
     private Integer category;
     private Double price;
 
-    public CreateANewPostDTO() {
+    public PostDTO() {
     }
 
-    public CreateANewPostDTO(Integer userId, Integer postId, LocalDate date, Product detail, Integer category, Double price) {
+    public PostDTO(Integer userId, Integer postId, LocalDate date, ProductDTO detail, Integer category, Double price) {
         this.userId = userId;
         this.postId = postId;
         this.date = date;
@@ -48,11 +46,11 @@ public class CreateANewPostDTO {
         this.date = date;
     }
 
-    public Product getDetail() {
+    public ProductDTO getDetail() {
         return detail;
     }
 
-    public void setDetail(Product detail) {
+    public void setDetail(ProductDTO detail) {
         this.detail = detail;
     }
 
