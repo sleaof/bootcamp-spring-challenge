@@ -47,7 +47,7 @@ public class UserService {
 
     //TODO: Adicionar Exceptions caso de erro na execucao de seguir um usuario
     //TODO: Caso ja esteja seguindo o usuario, nao permitir seguir novamente e lancar uma exception
-    public FollowdSellerDTO follow(Long idUser, Long userIdToFollow){
+    public User follow(Long idUser, Long userIdToFollow){
         validUserIsPresent(idUser);
         validUserIsPresent(userIdToFollow);
         Optional<User> user = repository.findById(idUser);
@@ -57,11 +57,8 @@ public class UserService {
         Long i = Long.valueOf(seller.get().getFollowersCount().intValue() + 1);
         seller.get().setFollowersCount(i);
         user.get().getFollowed().add(seller.get());
-        repository.save(user.get());
 
-        FollowdSellerDTO followdSellerDTO = new FollowdSellerDTO();
-        followdSellerDTO.getFollowdSellerDTO(user, seller);
-        return followdSellerDTO;
+        return repository.save(user.get());
     }
 
     //  US 0007 - Ser capaz de realizar a ação de “Deixar de seguir” (parar de seguir) um determinado vendedor.
