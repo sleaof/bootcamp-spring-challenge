@@ -1,0 +1,17 @@
+[
+  {
+    "userId": 0,
+    "userName": "Julia",
+    "followed": []
+  },
+  {
+    "userId": 1,
+    "userName": "Pedro",
+    "followed": []
+  },
+  {
+    "userId": 2,
+    "userName": "Katia",
+    "followed": []
+  }
+]
