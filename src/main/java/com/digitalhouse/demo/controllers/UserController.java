@@ -1,9 +1,9 @@
 package com.digitalhouse.demo.controllers;
 
 import com.digitalhouse.demo.dtos.*;
-import com.digitalhouse.demo.exceptions.user.*;
-import com.digitalhouse.demo.services.UserService;
-import com.digitalhouse.demo.validation.UserValidation;
+import com.digitalhouse.demo.exceptions.*;
+import com.digitalhouse.demo.services.*;
+import com.digitalhouse.demo.validations.Validation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private UserService service;
-    private UserValidation validation;
+    private Validation validation;
 
-    public UserController(UserService service, UserValidation validation) {
+    public UserController(UserService service, Validation validation) {
         this.service = service;
         this.validation = validation;
     }
@@ -38,36 +38,36 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/followers/count")
-    public ResponseEntity<numberOfUsersFollowASellerDTO> numberOfUsersFollowASeller(@PathVariable Integer userId) {
+    public ResponseEntity<NumberOfUsersFollowASellerDTO> numberOfUsersFollowASeller(@PathVariable Integer userId) {
         if (validation.validateIsEmpty(userId) || !validation.validateById(userId))
             return new ResponseEntity(new NotFoundException("User not found."), HttpStatus.NOT_FOUND);
 
         if (!validation.validateIfIsASeller(userId))
             return new ResponseEntity(new BadRequestException("Invalid operation. A user who is not a seller has no followers."), HttpStatus.BAD_REQUEST);
 
-        return new ResponseEntity<numberOfUsersFollowASellerDTO>(service.countFollowers(userId), HttpStatus.OK);
+        return new ResponseEntity<NumberOfUsersFollowASellerDTO>(service.countFollowers(userId), HttpStatus.OK);
     }
 
     @GetMapping("/{userId}/followers/list")
-    public ResponseEntity<listOfUsersFollowASellerDTO> listOfUsersFollowASeller(@PathVariable Integer userId) {
+    public ResponseEntity<ListOfUsersFollowASellerDTO> listOfUsersFollowASeller(@PathVariable Integer userId) {
         if (validation.validateIsEmpty(userId) || !validation.validateById(userId))
             return new ResponseEntity(new NotFoundException("User not found."), HttpStatus.NOT_FOUND);
 
         if (!validation.validateIfIsASeller(userId))
             return new ResponseEntity(new BadRequestException("Invalid operation. If you're not a seller, you don't have followers."), HttpStatus.BAD_REQUEST);
 
-        return new ResponseEntity<listOfUsersFollowASellerDTO>(service.listOfUsersFollowASeller(userId), HttpStatus.OK);
+        return new ResponseEntity<ListOfUsersFollowASellerDTO>(service.listOfUsersFollowASeller(userId), HttpStatus.OK);
     }
 
     @GetMapping("/{userId}/followed/list")
-    public ResponseEntity<listOfSellersFollowAUserDTO> listOfSellersFollowAUser(@PathVariable Integer userId) {
+    public ResponseEntity<ListOfSellersFollowAUserDTO> listOfSellersFollowAUser(@PathVariable Integer userId) {
         if (validation.validateIsEmpty(userId) || !validation.validateById(userId))
             return new ResponseEntity(new NotFoundException("User not found."), HttpStatus.NOT_FOUND);
 
         if (validation.validateIfIsASeller(userId))
             return new ResponseEntity(new BadRequestException("Invalid operation. If you're a seller, you can't follow anyone."), HttpStatus.BAD_REQUEST);
 
-        return new ResponseEntity<listOfSellersFollowAUserDTO>(service.listOfSellersFollowAUser(userId), HttpStatus.OK);
+        return new ResponseEntity<ListOfSellersFollowAUserDTO>(service.listOfSellersFollowAUser(userId), HttpStatus.OK);
     }
 
     @PostMapping("/{userId}/unfollow/{userIdToUnfollow}")

@@ -1,45 +1,51 @@
 package com.digitalhouse.demo.controllers;
 
 import com.digitalhouse.demo.dtos.PostsBySellersDTO;
-import com.digitalhouse.demo.entities.Post;
-import com.digitalhouse.demo.entities.User;
-import com.digitalhouse.demo.repositories.UserRepository;
+import com.digitalhouse.demo.entities.*;
+import com.digitalhouse.demo.exceptions.*;
 import com.digitalhouse.demo.services.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.digitalhouse.demo.validations.Validation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/products")
 public class ProductController {
-    @Autowired
     private ProductService service;
-    @Autowired
-    private UserRepository userRepository;
+    private Validation validation;
+
+    public ProductController(ProductService service, Validation validation) {
+        this.service = service;
+        this.validation = validation;
+    }
 
     @PostMapping("/newpost")
-    public Post createANewPost(@RequestBody Post post) {
-        return service.createANewPost(post);
+    public ResponseEntity<Post> createANewPost(@RequestBody Post post) {
+        if (validation.validatePostIsEmpty(post))
+            return new ResponseEntity(new NotFoundException("Post not found."), HttpStatus.NOT_FOUND);
+        return new ResponseEntity(service.createANewPost(post), HttpStatus.OK);
     }
 
     @GetMapping("/followed/{userId}/list")
-    public ResponseEntity<PostsBySellersDTO> listofPublicationsMadeBySalles(@PathVariable Integer userId) {
-        Optional<User> user = userRepository.findById(userId);
-        return new ResponseEntity<PostsBySellersDTO>(service.listPostsBySeller(user), HttpStatus.OK);
+    public ResponseEntity<PostsBySellersDTO> listofPublicationsMadeBySelles(@PathVariable Integer userId) {
+        if (!validation.validateById(userId) || validation.validateIsEmpty(userId) )
+            return new ResponseEntity(new NotFoundException("User not found."), HttpStatus.NOT_FOUND);
+
+        if (validation.validateIfIsASeller(userId))
+            return new ResponseEntity(new BadRequestException("Invalid operation. Only users can follow sellers."), HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<PostsBySellersDTO>(service.listPostsBySeller(userId), HttpStatus.OK);
     }
 
     @GetMapping("/followed/{userId}/orderedList")
     public PostsBySellersDTO sortFollowedByData(@PathVariable Integer userId, @RequestParam(value = "order") String order) {
-        PostsBySellersDTO postsBySellersDTO = service.listPostsBySeller(userRepository.findById(userId));
-        if(order.equalsIgnoreCase("date_asc")) {
-            postsBySellersDTO.setPosts(service.sortFollowedByDataAsc(postsBySellersDTO));
+        PostsBySellersDTO postsBySellersDTO = new PostsBySellersDTO();
+        if (order.equalsIgnoreCase("date_asc")) {
+            postsBySellersDTO.setPosts(service.sortFollowedByDataAsc(userId));
             return postsBySellersDTO;
         } else {
-            postsBySellersDTO.setPosts(service.sortFollowedByDataDesc(postsBySellersDTO));
+            postsBySellersDTO.setPosts(service.sortFollowedByDataDesc(userId));
             return postsBySellersDTO;
         }
     }

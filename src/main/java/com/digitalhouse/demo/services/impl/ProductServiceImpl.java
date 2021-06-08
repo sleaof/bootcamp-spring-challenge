@@ -1,41 +1,46 @@
 package com.digitalhouse.demo.services.impl;
 
-import com.digitalhouse.demo.dtos.PostsBySellersDTO;
-import com.digitalhouse.demo.entities.Post;
-import com.digitalhouse.demo.entities.Seller;
-import com.digitalhouse.demo.entities.User;
-import com.digitalhouse.demo.repositories.PostRepository;
-import com.digitalhouse.demo.repositories.ProductRepository;
-import com.digitalhouse.demo.repositories.UserRepository;
-import com.digitalhouse.demo.services.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.digitalhouse.demo.dtos.*;
+import com.digitalhouse.demo.entities.*;
+import com.digitalhouse.demo.repositories.*;
+import com.digitalhouse.demo.services.*;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-    @Autowired
-    private UserRepository repository;
-
-    @Autowired
+    private UserRepository userRepository;
     private PostRepository postRepository;
-
-    @Autowired
     private ProductRepository productRepository;
 
-    @Override
-    public Post createANewPost(Post post) {
-        post.setUser(repository.findById(post.getUserId()).get());
-        productRepository.save(post.getDetail());
-        postRepository.save(post);
-        return post;
+    public ProductServiceImpl(UserRepository userRepository, PostRepository postRepository, ProductRepository productRepository) {
+        this.userRepository = userRepository;
+        this.postRepository = postRepository;
+        this.productRepository = productRepository;
     }
 
     @Override
-    public PostsBySellersDTO listPostsBySeller(Optional<User> user) {
+    public CreateANewPostDTO createANewPost(Post post) {
+        post.setUser(userRepository.findById(post.getUserId()).get());
+        productRepository.save(post.getDetail());
+        postRepository.save(post);
+
+        return new CreateANewPostDTO(
+                post.getUser().getUserId(),
+                post.getPostId(),
+                post.getDate(),
+                post.getDetail(),
+                post.getCategory(),
+                post.getPrice()
+        );
+    }
+
+    @Override
+    public PostsBySellersDTO listPostsBySeller(Integer userId) {
+        Optional<User> user = userRepository.findById(userId);
         PostsBySellersDTO postsBySellersDTO = new PostsBySellersDTO();
         postsBySellersDTO.setUserId(user.get().getUserId());
 
@@ -48,22 +53,25 @@ public class ProductServiceImpl implements ProductService {
                                     .anyMatch(i2 -> i2.equals(o1.getUser().getUserId()));
                         }).collect(Collectors.toList()));
 
-        //List<Post> aux = postsBySellersDTO.getPosts().stream()
-                //.filter(p -> p.getDate().min).collect(Collectors.toList());
+        postsBySellersDTO.setPosts(postsBySellersDTO.getPosts().stream()
+                .filter(p -> p.getDate().isAfter(LocalDate.now().minusDays(15)))
+                .collect(Collectors.toList()));
 
         return postsBySellersDTO;
     }
 
     @Override
-    public List<Post> sortFollowedByDataAsc(PostsBySellersDTO postsDTO) {
-        return postsDTO.getPosts().stream()
+    public List<Post> sortFollowedByDataAsc(Integer userId) {
+        PostsBySellersDTO postsBySellersDTO = listPostsBySeller(userId);
+        return postsBySellersDTO.getPosts().stream()
                 .sorted(Comparator.comparing(Post::getDate))
                 .collect(Collectors.toList());
-        }
+    }
 
     @Override
-    public List<Post> sortFollowedByDataDesc(PostsBySellersDTO postsDTO) {
-        return postsDTO.getPosts().stream()
+    public List<Post> sortFollowedByDataDesc(Integer userId) {
+        PostsBySellersDTO postsBySellersDTO = listPostsBySeller(userId);
+        return postsBySellersDTO.getPosts().stream()
                 .sorted(Comparator.comparing(Post::getDate).reversed())
                 .collect(Collectors.toList());
     }

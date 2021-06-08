@@ -1,4 +1,4 @@
-package com.digitalhouse.demo.exceptions.user;
+package com.digitalhouse.demo.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

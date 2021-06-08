@@ -1,14 +1,14 @@
 package com.digitalhouse.demo.dtos;
 
-public class numberOfUsersFollowASellerDTO {
+public class NumberOfUsersFollowASellerDTO {
     private Integer userId;
     private String userName;
     private Integer followers_count;
 
-    public numberOfUsersFollowASellerDTO() {
+    public NumberOfUsersFollowASellerDTO() {
     }
 
-    public numberOfUsersFollowASellerDTO(Integer userId, String userName, Integer followers_count) {
+    public NumberOfUsersFollowASellerDTO(Integer userId, String userName, Integer followers_count) {
         this.userId = userId;
         this.userName = userName;
         this.followers_count = followers_count;

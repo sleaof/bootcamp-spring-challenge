@@ -2,15 +2,15 @@ package com.digitalhouse.demo.dtos;
 
 import java.util.List;
 
-public class listOfSellersFollowAUserDTO {
+public class ListOfSellersFollowAUserDTO {
         private Integer userId;
         private String userName;
         private List<SellerDTO> followed;
 
-    public listOfSellersFollowAUserDTO() {
+    public ListOfSellersFollowAUserDTO() {
     }
 
-    public listOfSellersFollowAUserDTO(Integer userId, String userName, List<SellerDTO> followed) {
+    public ListOfSellersFollowAUserDTO(Integer userId, String userName, List<SellerDTO> followed) {
         this.userId = userId;
         this.userName = userName;
         this.followed = followed;

@@ -1,4 +1,4 @@
-package com.digitalhouse.demo.exceptions.user;
+package com.digitalhouse.demo.exceptions;
 
 public class NotFoundException extends RuntimeException{
 

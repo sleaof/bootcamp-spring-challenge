@@ -1,18 +1,17 @@
-package com.digitalhouse.demo.validation.impl;
+package com.digitalhouse.demo.validations.impl;
 
 import com.digitalhouse.demo.entities.*;
 import com.digitalhouse.demo.repositories.UserRepository;
-import com.digitalhouse.demo.validation.UserValidation;
+import com.digitalhouse.demo.validations.Validation;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @Component
-public class UserValidationImpl implements UserValidation {
-
+public class ValidationImpl implements Validation {
     private UserRepository repository;
 
-    public UserValidationImpl(UserRepository repository) {
+    public ValidationImpl(UserRepository repository) {
         this.repository = repository;
     }
 
@@ -36,13 +35,17 @@ public class UserValidationImpl implements UserValidation {
     }
 
     @Override
-    public Boolean validateIfIsASeller(Integer userIdToFollow) {
-        Optional<User> user = repository.findById(userIdToFollow);
+    public Boolean validateIfIsASeller(Integer userId) {
+        Optional<User> user = repository.findById(userId);
         return user.get().getSeller() == Boolean.TRUE;
     }
 
     @Override
     public Boolean validateIsEmpty(Integer userId) {
         return repository.findById(userId).isEmpty();
+    }
+
+    public Boolean validatePostIsEmpty(Post post) {
+        return post==null;
     }
 }

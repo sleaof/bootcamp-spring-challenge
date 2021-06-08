@@ -4,7 +4,7 @@ import com.digitalhouse.demo.dtos.*;
 import com.digitalhouse.demo.entities.*;
 import com.digitalhouse.demo.repositories.*;
 import com.digitalhouse.demo.services.UserService;
-import com.digitalhouse.demo.validation.UserValidation;
+import com.digitalhouse.demo.validations.Validation;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -15,9 +15,9 @@ public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
     private SellerRepository sellerRepository;
-    private UserValidation validation;
+    private Validation validation;
 
-    public UserServiceImpl(UserRepository userRepository, SellerRepository sellerRepository, UserValidation validation) {
+    public UserServiceImpl(UserRepository userRepository, SellerRepository sellerRepository, Validation validation) {
         this.userRepository = userRepository;
         this.sellerRepository = sellerRepository;
         this.validation = validation;
@@ -37,13 +37,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public numberOfUsersFollowASellerDTO countFollowers(Integer userId) {
+    public NumberOfUsersFollowASellerDTO countFollowers(Integer userId) {
         Optional<Seller> seller = sellerRepository.findById(userId);
-        return new numberOfUsersFollowASellerDTO(seller.get().getUserId(), seller.get().getUserName(), seller.get().getFollowers().size());
+        return new NumberOfUsersFollowASellerDTO(seller.get().getUserId(), seller.get().getUserName(), seller.get().getFollowers().size());
     }
 
     @Override
-    public listOfUsersFollowASellerDTO listOfUsersFollowASeller(Integer userId) {
+    public ListOfUsersFollowASellerDTO listOfUsersFollowASeller(Integer userId) {
         Optional<Seller> seller = sellerRepository.findById(userId);
         List<UserDTO> userDTO = new ArrayList<>();
 
@@ -51,11 +51,11 @@ public class UserServiceImpl implements UserService {
             userDTO.add(new UserDTO(user.getUserId(), user.getUserName()));
         }
 
-        return new listOfUsersFollowASellerDTO(seller.get().getUserId(), seller.get().getUserName(), userDTO);
+        return new ListOfUsersFollowASellerDTO(seller.get().getUserId(), seller.get().getUserName(), userDTO);
     }
 
     @Override
-    public listOfSellersFollowAUserDTO listOfSellersFollowAUser(Integer userId) {
+    public ListOfSellersFollowAUserDTO listOfSellersFollowAUser(Integer userId) {
         Optional<User> user = userRepository.findById(userId);
         List<SellerDTO> sellerDTO = new ArrayList<>();
 
@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
             sellerDTO.add(new SellerDTO(seller.getUserId(), seller.getUserName()));
         }
 
-        return new listOfSellersFollowAUserDTO(user.get().getUserId(), user.get().getUserName(), sellerDTO);
+        return new ListOfSellersFollowAUserDTO(user.get().getUserId(), user.get().getUserName(), sellerDTO);
     }
 
     @Override
