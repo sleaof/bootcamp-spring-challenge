@@ -42,7 +42,7 @@ public class SellerController {
     @GetMapping("/sellers/{idSeller}/followers/count/")
     public ResponseEntity<SellerDTO> countFollowed(@RequestHeader("idSeller") @Validated Long idSeller){
         if(idSeller != null) {
-            return new ResponseEntity<SellerDTO>(service.countFollow(idSeller), HttpStatus.CREATED);
+            return new ResponseEntity<SellerDTO>(service.countFollow(idSeller), HttpStatus.OK);
         } else {
             return new ResponseEntity<SellerDTO>(HttpStatus.BAD_REQUEST);
         }

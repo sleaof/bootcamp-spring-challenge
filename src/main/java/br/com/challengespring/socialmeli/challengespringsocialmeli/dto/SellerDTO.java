@@ -7,8 +7,8 @@ import lombok.Data;
 @AllArgsConstructor
 public class SellerDTO {
 
-    private Long userId;
-    private String userName;
+    private Long sellerId;
+    private String sellerName;
     private Boolean isSeller;
     private Long followersCount;
 

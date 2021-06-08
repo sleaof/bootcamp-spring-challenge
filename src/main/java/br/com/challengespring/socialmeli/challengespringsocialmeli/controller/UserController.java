@@ -1,5 +1,6 @@
 package br.com.challengespring.socialmeli.challengespringsocialmeli.controller;
 
+import br.com.challengespring.socialmeli.challengespringsocialmeli.dto.FollowdSellerDTO;
 import br.com.challengespring.socialmeli.challengespringsocialmeli.dto.UserDTO;
 import br.com.challengespring.socialmeli.challengespringsocialmeli.entity.Post;
 import br.com.challengespring.socialmeli.challengespringsocialmeli.entity.Seller;
@@ -42,12 +43,12 @@ public class UserController {
     // US 0001 - Follow um determinado vendedor
     //TODO: Verificar porque vendedor seguir vendedor esta com erro
     @PutMapping("/users/{idUser}/follow/{userIdToFollow}")
-    public ResponseEntity<User> followUser(@RequestHeader @Validated Long idUser, @RequestHeader @Validated Long userIdToFollow){
-        Optional<User> userIn = Optional.ofNullable(service.follow(idUser, userIdToFollow));
-        if (!userIn.isPresent()){
-            return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<FollowdSellerDTO> followUser(@RequestHeader @Validated Long idUser, @RequestHeader @Validated Long userIdToFollow){
+        FollowdSellerDTO followdSellerDTO = service.follow(idUser, userIdToFollow);
+        if (followdSellerDTO!=null){
+            return new ResponseEntity<FollowdSellerDTO>(followdSellerDTO, HttpStatus.OK);
         } else {
-            return new ResponseEntity<User>(userIn.get(), HttpStatus.OK);
+            return new ResponseEntity<FollowdSellerDTO>(HttpStatus.BAD_REQUEST);
         }
     }
 
